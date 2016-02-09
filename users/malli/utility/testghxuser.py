@@ -9,7 +9,7 @@ import simplejson as json
 def testmyghx():
 
 	#Creating gitusers document and inserting users names into the document
-	
+	"""
 	db = couchdbcode.CouchDB('127.0.0.1', '5984')
 	url = 'https://api.github.com/users?per_page=100'
 	cdbr = db.listdoc('mydb')
@@ -29,7 +29,7 @@ def testmyghx():
 		
 	else:
 		since = '0'
-
+		"""
 	"""	
 		
 	_json_names = {}
@@ -85,9 +85,11 @@ def testmyghx():
 		cdbr = db.savedoc('mydb', json.dumps(_json_count), 'count')
 		print(cdbr.json())
 	"""
+	db = couchdbcode.CouchDB('127.0.0.1', '5984')
+	cdbr = db.listdoc('mydb')
 
 	#displaying the existing document details
-	"""if (len(sys.argv)==2):
+	if (len(sys.argv)==2):
 		docname = sys.argv[1]
 		
 		if cdbr.checkdocname(docname):
@@ -107,7 +109,7 @@ def testmyghx():
 	else:
 		print('usage: <filename> <document name>')
 	
-	"""
+	
 	
 	#print(cdbr.json())
 	#_json= cdbr.json()
