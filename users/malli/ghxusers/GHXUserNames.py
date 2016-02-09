@@ -32,8 +32,13 @@ class GHXUserFileEnumerator(object):
        self._last_ = 1
 
     def fill(self):
-        infile=open(self._file,'r+')
-        self._json=json.load(infile)
+    	try:
+    		infile=open(self._file,'r+')
+    	except:
+    		print('can\'t open file')
+    	else:
+    		self._json=json.load(infile)
+    		infile.close()
         
     def __iter__(self):
         if (self._json is not None):

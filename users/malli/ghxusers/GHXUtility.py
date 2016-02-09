@@ -18,9 +18,14 @@ class BuildList(object):
 	#
 
 	def _get_count_(self):
-		f = open("./ghxuser/count.txt", "r")
-		count = int(f.read())
-		f.close()
+		count = 0
+		try:
+			f = open("./ghxuser/count.txt", "r")
+		except:
+			print('can\'t find file count.txt ')
+		else:
+			count = int(f.read())
+			f.close()
 		return count
 	#
 	# string -> string[]
@@ -28,20 +33,27 @@ class BuildList(object):
 	#
 	
 	def get_urls(self, mode):
-		self._list = [self._list.rstrip('\n') for self._list in open(self._name)]
-		start = self._get_count_()
-		count = 1
-		limit = start + self._offset
-		for name in self._list:
-			if count > limit :
-				break
-			if count > start:
-				if (mode == "net"):
-					self._urls.append(name)	
-				else:
-					self._urls.append("./ghxuser/"+name +".txt")
-			count = count + 1
+		try:
+			self._list = [self._list.rstrip('\n') for self._list in open(self._name)]
+		except:
+			print("Exception: not able to load the file")
+		else:
+			start = self._get_count_()
+			count = 1
+			limit = start + self._offset
+			
+			for name in self._list:
+				if count > limit :
+					break
+				if count > start:
+					if (mode == "net"):
+						self._urls.append(name)
+					else:
+						self._urls.append("./ghxuser/"+name +".txt")
+				count = count + 1
+						
 		return self._urls
+		
 	#
 	#	Takes GHXUsersRepo object 
 	#
@@ -65,8 +77,8 @@ class UserJson(object):
 		self._details["language"] = self._r.repo_language()
 		self._details["forks"] = self._r.repo_forks()
 		self._details["open_issues_count"] = self._r.repo_issue_count()
-		#_contributors = self._r.repo_contributors()
-		#self._details["_contributors"] = _contributors
+		_contributors = self._r.repo_contributors()
+		self._details["contributors"] = _contributors
 
 		return self._details
 

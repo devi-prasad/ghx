@@ -24,7 +24,14 @@ class CouchDBResponse(object):
      def docscount(self): return self._resp_json['doc_count']
      #CouchDBResponse -> Integer
      def checkdbname(self, dbname): return dbname in self._resp_json;
-    
+     #CouchDBResponse -> Integer    
+     def checkdocname(self, docname):
+         doc = []
+         doc = self._resp_json
+         for docid in doc["rows"]:
+            if docid["id"] == docname:
+                return True
+         return False
 
 class CouchDB:
 #"""Basic wrapper class for operations on a couchDB"""
@@ -72,6 +79,11 @@ class CouchDB:
          else:
              return CouchDBResponse(self._post(self.url + '/' + dbName + '/', body))
 
+     # String, String, String -> CouchDBResponse
+     def updatedoc(self, dbName, body, docId=None):
+        return CouchDBResponse(self._put(self.url + '/' + dbName + '/' + docId, body))
+        
+
      # String, String -> CouchDBResponse
      def deletedoc(self, dbName, docId):
          return CouchDBResponse(self._delete(self.url + '/' + dbName + '/' + docId + '/'))
@@ -83,6 +95,7 @@ class CouchDB:
      # String -> HTTPResponse    
      def _get(self, uri):
          c = self.connect()
+         assert(c != None)
          headers = {"Accept": "application/json"}
          c.request("GET", uri, None, headers)
          return c.getresponse()
@@ -90,7 +103,8 @@ class CouchDB:
      # String, String -> HTTPResponse
      def _post(self, uri, body):
          c = self.connect()
-         headers = {"Content-type": "application/json"}
+         assert(c != None)
+         headers = {"Content-type": "application/json; charset=utf-8"}
          c.request('POST', uri, body, headers)
          return c.getresponse()
  
