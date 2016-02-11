@@ -11,10 +11,10 @@ def test_emptydb():
 def test_create_one_db():
     db = couchdbcode.CouchDB('127.0.0.1', '5984')
     assert(db != None)
-    cdbr = db.create('mydb')
+    cdbr = db.create('gituser')
     assert(cdbr.status() == 201)
     cdbr = db.list()
-    assert(cdbr.status() == 200 and cdbr.checkdbname('mydb'))
+    assert(cdbr.status() == 200 and cdbr.checkdbname('gituser'))
      
 
 #test - save a document into the database
@@ -34,9 +34,9 @@ def test_save_doc():
          }
     }
     """
-    cdbr = db.savedoc('mydb', doc, 'mydoc')
+    cdbr = db.savedoc('gituser', doc, 'mydoc')
     assert(cdbr.status() == 201)
-    cdbr = db.listdoc('mydb')
+    cdbr = db.listdoc('gituser')
     assert(cdbr.status() == 200 and cdbr.docscount() == 1)
     
 
@@ -44,14 +44,14 @@ def test_save_doc():
 def test_open_doc():
     db = couchdbcode.CouchDB('127.0.0.1', '5984')
     assert(db != None)
-    cdbr = db.opendoc('mydb', 'mydoc')
+    cdbr = db.opendoc('gituser', 'mydoc')
     assert(cdbr.status() == 200)
 
 #test - delete a document
 def test_delete_doc():
     db = couchdbcode.CouchDB('127.0.0.1', '5984')
     assert(db != None)
-    db.deletedoc('mydb', 'mydoc')
+    db.deletedoc('gituser', 'mydoc')
     
 
 
@@ -59,7 +59,7 @@ def test_delete_doc():
 def test_delete_all_db():
     db = couchdbcode.CouchDB('127.0.0.1', '5984')
     assert(db != None)
-    cdbr = db.delete('mydb')  
+    cdbr = db.delete('gituser')  
     assert(cdbr.status() == 200)
     cdbr = db.list()
     assert(cdbr.status() == 200 and len(cdbr.json()) == 2)

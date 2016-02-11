@@ -29,8 +29,8 @@ def write_user_json(enum):
 	db = couchdbcode.CouchDB("127.0.0.1", "5984")
 	cdbr = db.list()
 	
-	if not cdbr.checkdbname("mydb"):
-		cdbr = db.create("mydb")
+	if not cdbr.checkdbname("gituser"):
+		cdbr = db.create("gituser")
 	
 	_user_name_=""
 	_repo_name_=""
@@ -51,7 +51,7 @@ def write_user_json(enum):
 
 	repo_json = {}
 	repo_json["repo"] = _json
-	cdbr = db.savedoc("mydb",json.dumps(repo_json),_user_name_)
+	cdbr = db.savedoc("gituser",json.dumps(repo_json),_user_name_)
 	#assert(cdbr.status()==201)
 
 	
@@ -94,23 +94,23 @@ def update_file():
 
 def update_couchdb():
 	db = couchdbcode.CouchDB('127.0.0.1', '5984')
-	cdbr = db.listdoc('mydb')
+	cdbr = db.listdoc('gituser')
 
 	if cdbr.checkdocname('count'):
-		cdbr = db.opendoc('mydb','count')
+		cdbr = db.opendoc('gituser','count')
 		print(cdbr.json())
 		print(cdbr.json()["counter"])
 		_json_count = {}
 		_json_count["_rev"] = cdbr.json()["_rev"]
 		_json_count["counter"] = (cdbr.json()["counter"] + 1)
 		print(_json_count)
-		cdbr = db.updatedoc('mydb', json.dumps(_json_count), 'count')
+		cdbr = db.updatedoc('gituser', json.dumps(_json_count), 'count')
 		print(cdbr.json())
 	else:
 		
 		_json_count = {}
 		_json_count["counter"] = 0
-		cdbr = db.savedoc('mydb', json.dumps(_json_count), 'count')
+		cdbr = db.savedoc('gituser', json.dumps(_json_count), 'count')
 		print(cdbr.json())
 
 if __name__ == "__main__":
