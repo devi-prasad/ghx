@@ -19,6 +19,11 @@ def test_repo_enumerator():
     for r in rit:
         print(r.id(), r.url())
 
+
+def bootstrap():
+    skip
+
+
 if __name__ == "__main__":
     print("Welcome to GHX Test Driver")
     test_repo_enumerator()

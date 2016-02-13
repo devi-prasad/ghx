@@ -36,7 +36,7 @@ class RepoEnumerator(object):
         self._json = None
 
     def reset(self):
-       self._last_ = 1
+       self._last = 1
 
     def fill(self):
         since = {'since': self._next}
